@@ -3,8 +3,9 @@
 class Filter {
 
 protected:
-    float _fGain, _fDelayInSec;
+    float _fDelayInSec;
     int _iDelayInSamples;
+    float _fGain;
 
 public:
 

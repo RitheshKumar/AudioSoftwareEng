@@ -1,7 +1,7 @@
 #include <iostream>
 
 class Buffering {
-    int _iBufferLen, _iDelayLen; //Try implementing your buffer in a radix size!
+    int _iDelayLen, _iBufferLen; //Try implementing your buffer in a radix size!
     float *_pfBuffer, *_pfWrite, *_pfRead;
 
 public:
@@ -11,7 +11,7 @@ public:
 
     ~Buffering(); 
     Buffering( const Buffering &rhs ); 
-    Buffering & operator= ( const Buffering &rhs );
+    Buffering & operator = ( const Buffering &rhs );
 
     void init();
     void copyBuffer(float *destination, const float *source);

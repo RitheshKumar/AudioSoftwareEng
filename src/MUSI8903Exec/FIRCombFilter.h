@@ -3,8 +3,8 @@
 
 class FIRCombFilter : public Filter {
 
-    Buffering *buffer;
-    float  _fCurVal;
+    Buffering* _pBuffer;
+    float      _fCurVal;
 
 public:
 
