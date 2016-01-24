@@ -27,7 +27,7 @@ bool TestBuffering::isWrite() { //Check the write functionality of Buffering cla
     //write points _iDelayLen away from read
 
     for( int i = 0; i < _iBufferLen; i++) { //Write in values greater than bufferLen
-        _pBuffer->write( i*1.0 );
+        _pBuffer->write( i*1.0f );
     }
 
     //Now, we must have values 10 to _iBufferLen in the same indices of the buffer,

@@ -2,7 +2,7 @@
 
 class Buffering {
     int _iDelayLen, _iBufferLen; //Try implementing your buffer in a radix size!
-    float *_pfBuffer, *_pfWrite, *_pfRead;
+    float *_pfBuffer, *_pfWrite, *_pfRead, *_pfEnd;
 
 public:
 

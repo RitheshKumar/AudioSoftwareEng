@@ -12,6 +12,7 @@ void Buffering::init() {
     }
     _pfRead   = _pfBuffer;
     _pfWrite  = _pfRead + _iDelayLen;
+    _pfEnd    = _pfBuffer + _iBufferLen - 1;
 }
 
 void Buffering::copyBuffer(float *destination, const float *source) {
@@ -52,7 +53,7 @@ Buffering & Buffering::operator= ( const Buffering &rhs ) {
 }
 
 void Buffering::update( float *& bufPtr ) {
-    if ( bufPtr != bufPtr+_iBufferLen-1 ) {
+    if ( bufPtr != _pfEnd ) {
         bufPtr++;
     }
     else {
