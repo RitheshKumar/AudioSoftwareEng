@@ -6,8 +6,6 @@ class Buffering {
 
 public:
 
-    void init();
-    void copyBuffer(float *destination, const float *source);
 
     Buffering( int delayLen ); 
 
@@ -15,9 +13,12 @@ public:
     Buffering( const Buffering &rhs ); 
     Buffering & operator= ( const Buffering &rhs );
 
+    void init();
+    void copyBuffer(float *destination, const float *source);
+
     void update( float *& bufPtr );
     float read();
-    float write();
+    void write(const float& val);
 
 };
 

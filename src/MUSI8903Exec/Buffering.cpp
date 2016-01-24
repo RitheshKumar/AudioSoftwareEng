@@ -66,10 +66,9 @@ float Buffering::read() {
     return out;
 }
 
-float Buffering::write() {
-    float out = *_pfWrite;
+void Buffering::write(const float& val) {
+    *_pfWrite = val;
     update( _pfWrite );
-    return out;
 }
 
             
