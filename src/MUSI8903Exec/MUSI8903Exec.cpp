@@ -47,7 +47,14 @@ int main(int argc, char* argv[])
 //        iTypeOfFilter = eFilterTypes.argv[1];
 //        fDelayInSec = (float)argv[2];
 //    }
-    
+    if (argc<2) {
+        return -1;
+    }
+    else {
+        sInputFilePath = argv[1];
+        sOutputFilePath  = sInputFilePath + ".txt";
+//        std::cout<<sOutputFilePath<<std::endl;
+    }
     
     //////////////////////////////////////////////////////////////////////////////
     // open the input wave file

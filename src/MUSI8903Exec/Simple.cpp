@@ -24,10 +24,10 @@ int main () {
 
     //std::cout<<isZeros( fArray, 20 )<<std::endl;
 
-//    int idelayLen = 512;
-//    TestBuffering tTestBuf( idelayLen );
-//    std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
-//    std::cout<<"Writing       : "<<tTestBuf.isReadWrite()<<std::endl;
+    //int idelayLen = 512;
+    //TestBuffering tTestBuf( idelayLen );
+    //std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
+    //std::cout<<"Writing       : "<<tTestBuf.isReadWrite()<<std::endl;
 
 //    std::ofstream outFile;
 //    outFile.open("MyFile.txt");
@@ -50,7 +50,8 @@ int main () {
     CAudioFileIf *phAudioFile   = 0;
     
     // provide the path
-    std::string sInputFilePath = "/Users/musictechnology/Desktop/ShortDataset/Calcutta_Cutie.wav";
+    std::string sInputFilePath = "/Users/Rithesh/Documents/MIR/Projects/Onset Detection/dev2/sine_100.wav";
+
     
     // get info of the audio file
     CAudioFileIf::FileIoType_t fileType = CAudioFileIf::kFileRead;

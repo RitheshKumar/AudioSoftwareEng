@@ -11,9 +11,7 @@ class IIRCombFilter : public Filter {
 
 public:
 
-    IIRCombFilter( float *audioFile, const int &fileLength, const float &delayInSec, const float &sampleRateInHz, const float &gain);
     IIRCombFilter( const float &delayInSec, const float &sampleRateInHz, const float &gain);
-
 
     ~IIRCombFilter(); 
 

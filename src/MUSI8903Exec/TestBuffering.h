@@ -7,7 +7,7 @@
 
 class TestBuffering {
     Buffering *_pBuffer;
-    int _iDelayLen, _iBufferLen;
+    int _iDelayLen;
 
 public:
 

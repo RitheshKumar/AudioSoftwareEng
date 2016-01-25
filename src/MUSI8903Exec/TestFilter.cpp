@@ -6,10 +6,10 @@ TestFilter::TestFilter(int filterType): _iWhichFilter( filterType ), _fDelayInSe
     
     if (filterType == 0) {
         //This is testing FIR
-        testFIR = new class FIRCombFilter(_fTestSignal1, 100, _fDelayInSec, 100, _fGain);
+        testFIR = new class FIRCombFilter( _fDelayInSec, 100, _fGain );
     } else if ( filterType == 1) {
         //This is testing IIR
-        testIIR = new class IIRCombFilter(_fTestSignal1, 100, _fDelayInSec, 100, _fGain);
+        testIIR = new class IIRCombFilter( _fDelayInSec, 100, _fGain );
     } else {
         std::cout << "No such filter" << std::endl;
     }

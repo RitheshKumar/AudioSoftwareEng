@@ -23,6 +23,8 @@ public:
     float read();
     void write(const float& val);
 
+    int getBufferLen() { return _iBufferLen; }
+
 };
 
 #endif

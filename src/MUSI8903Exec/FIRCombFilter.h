@@ -11,7 +11,6 @@ class FIRCombFilter : public Filter {
 
 public:
 
-    FIRCombFilter( float *audioFile, const int &fileLength, const float &delayInSec, const float &sampleRateInHz, const float &gain);
     FIRCombFilter(const float &delayInSec, const float &sampleRateInHz, const float &gain);
 
     ~FIRCombFilter(); 
