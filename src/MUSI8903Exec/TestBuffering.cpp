@@ -17,24 +17,21 @@ bool TestBuffering::isInit() { //Check if the buffer is initialized to zero
         if( fTemp != 0.0 ) {
             return false;
         }
-        std::cout<<fTemp<<std::endl;
     }
     return true;
 }
 
-bool TestBuffering::isWrite() { //Check the write functionality of Buffering class
+bool TestBuffering::isReadWrite() { //Check the read/write functionality of Buffering class
     //By default, read points to the first element  of the buffer, 
     //write points _iDelayLen away from read
 
-    for( int i = 0; i < _iBufferLen; i++) { //Write in values greater than bufferLen
+    for( int i = 0; i < _iBufferLen; i++) { //by the end of the loop, the write pointer must point to the initial position
         _pBuffer->write( i*1.0f );
     }
 
-    //Now, we must have values 10 to _iBufferLen in the same indices of the buffer,
-    //and have values _iBufferLen+1 to _iBufferLen+10 in the first ten indices
-
-    for( int i=0; i < _iBufferLen; i++ ) {
-        std::cout<<_pBuffer->read()<<std::endl;
+    if ( _pBuffer->read() != _iBufferLen-_iDelayLen ) {
+        return false;
     }
+
     return true;
 }

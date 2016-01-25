@@ -22,10 +22,10 @@ int main () {
 
     //std::cout<<isZeros( fArray, 20 )<<std::endl;
 
-    int idelayLen = 20;
+    int idelayLen = 512;
     TestBuffering tTestBuf( idelayLen );
-    //std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
-    std::cout<<"Writing       :\n"<<tTestBuf.isWrite()<<std::endl;
+    std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
+    std::cout<<"Writing       : "<<tTestBuf.isReadWrite()<<std::endl;
 
     return 0;
 }

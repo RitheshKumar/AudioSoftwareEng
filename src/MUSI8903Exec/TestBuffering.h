@@ -14,6 +14,6 @@ public:
 
     bool isInit(); //Check if the buffer is initialized to zero
 
-    bool isWrite(); //Check the write functionality of Buffering class
+    bool isReadWrite(); //Check the write functionality of Buffering class
 };
 
