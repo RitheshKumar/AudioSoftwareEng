@@ -1,3 +1,6 @@
+#ifndef __Buffering__
+#define __Buffering__
+
 #include <iostream>
 
 class Buffering {
@@ -22,5 +25,4 @@ public:
 
 };
 
-
-
+#endif

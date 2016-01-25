@@ -1,3 +1,6 @@
+#ifndef __TestBuffering__
+#define __TestBuffering__
+
 #include<iostream>
 #include "Buffering.h"
 
@@ -17,3 +20,4 @@ public:
     bool isReadWrite(); //Check the write functionality of Buffering class
 };
 
+#endif

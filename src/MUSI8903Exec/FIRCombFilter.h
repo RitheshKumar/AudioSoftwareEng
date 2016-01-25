@@ -1,3 +1,6 @@
+#ifndef __FIRCombFilter__
+#define __FIRCombFilter__
+
 #include "Filter.h"
 #include "Buffering.h"
 
@@ -15,3 +18,5 @@ public:
     void filterProcess( float *audioFile, const int &fileLength);
 
 };
+
+#endif 

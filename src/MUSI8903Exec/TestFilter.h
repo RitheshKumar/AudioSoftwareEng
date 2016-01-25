@@ -1,8 +1,7 @@
-
 #ifndef __MUSI8903__TestFilter__
 #define __MUSI8903__TestFilter__
 
-#include <stdio.h>
+#include <iostream>
 #include "FIRCombFilter.h"
 #include "IIRCombFilter.h"
 

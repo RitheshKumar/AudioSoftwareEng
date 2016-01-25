@@ -1,3 +1,6 @@
+#ifndef __IIRCombFilter__
+#define __IIRCombFilter__
+
 #include "Filter.h"
 #include "Buffering.h"
 
@@ -18,3 +21,4 @@ public:
 
 };
 
+#endif 

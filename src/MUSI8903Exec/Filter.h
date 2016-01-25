@@ -1,3 +1,6 @@
+#ifndef __Filter__
+#define __Filter__
+
 #include <iostream>
 
 class Filter {
@@ -14,3 +17,5 @@ public:
     virtual ~Filter();
     
 };
+
+#endif

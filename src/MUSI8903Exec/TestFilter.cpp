@@ -1,4 +1,3 @@
-
 #include "TestFilter.h"
 
 TestFilter::TestFilter(int filterType): _fDelayInSec(0.3f), _fGain(0.8f) {
