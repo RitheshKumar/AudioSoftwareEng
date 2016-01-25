@@ -14,6 +14,11 @@ TestFilter::TestFilter(int filterType): _iWhichFilter( filterType ), _fDelayInSe
 
 }
 
+TestFilter::~TestFilter() {
+    delete _fTestSignal1;
+    _fTestSignal1 = NULL;
+}
+
 void TestFilter::initTestSignal() {
     //Initialize testSignal to zeros
     for( int i = 0; i<100; i++ ) {

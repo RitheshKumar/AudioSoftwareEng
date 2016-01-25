@@ -8,6 +8,8 @@
 
 class TestFilter {
 private:
+    int _iWhichFilter;
+    
     float _fDelayInSec;
     float _fGain;
     enum  _eFilterType {
@@ -16,7 +18,7 @@ private:
     };
     float * _fTestSignal1; 
 
-    int _iWhichFilter;
+    
 
     class FIRCombFilter *testFIR; 
     class IIRCombFilter *testIIR;
