@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "TestBuffering.h"
 
 bool isZeros( float *fArray, int len ) {
@@ -15,10 +16,10 @@ int main () {
     float *fArray = new float [20];
 
     for( int i=0; i<20; i++ ) {
-        fArray[i] = 0.0;
+        fArray[i] = 1.5f*i;
     }
 
-    fArray[19] = 1;
+    fArray[19] = 8.0f;
 
     //std::cout<<isZeros( fArray, 20 )<<std::endl;
 
@@ -26,6 +27,12 @@ int main () {
     TestBuffering tTestBuf( idelayLen );
     std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
     std::cout<<"Writing       : "<<tTestBuf.isReadWrite()<<std::endl;
+
+    std::ofstream outFile;
+    outFile.open("MyFile.txt");
+    std::ostream_iterator<float> outStream( outFile, "\n" );
+    std::copy(fArray, fArray+20, outStream); //Don't understand why the end pointer is not beginPtr+fileLen-1 but beginPtr+fileLen
+    std::cout<<*(fArray+19)<<std::endl;
 
 
     return 0;

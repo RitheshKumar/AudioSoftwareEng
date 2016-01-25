@@ -2,6 +2,7 @@
 #define __MUSI8903__TestFilter__
 
 #include <iostream>
+#include <fstream>
 #include "FIRCombFilter.h"
 #include "IIRCombFilter.h"
 
@@ -13,13 +14,23 @@ private:
         FIRCombFilter = 0,
         IIRCombFilter = 1
     };
-    float * _fTestSignal1 = new float[100];
+    float * _fTestSignal1; 
 
-    FIRCombFilter *testeeFIR;
-    IIRCombFilter *testeeIIR;
+    int _iWhichFilter;
+
+    class FIRCombFilter *testFIR; 
+    class IIRCombFilter *testIIR;
+
     
 public:
     TestFilter(int filterType);
+    ~TestFilter();
+
+    void initTestSignal();
+    void zeroInputTest();
+    void unitImpulseTest();
+
+    void fileWrite( float *writeVal, const char* fileName ) const;
     
     
 };
