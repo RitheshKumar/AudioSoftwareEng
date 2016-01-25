@@ -16,8 +16,8 @@ private:
     };
     float * _fTestSignal1 = new float[100];
 
-    class FIRCombFilter *testeeFIR;
-    class IIRCombFilter *testeeIIR;
+    FIRCombFilter *testeeFIR;
+    IIRCombFilter *testeeIIR;
     
 public:
     TestFilter(int filterType);

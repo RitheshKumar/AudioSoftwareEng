@@ -2,7 +2,7 @@
 
 
 
-TestBuffering::TestBuffering( const int &delayLen ) : _iDelayLen( delayLen ), _iBufferLen( 4*delayLen ), _pBuffer( new Buffering( delayLen ) ) {
+TestBuffering::TestBuffering( const int &delayLen ) : _pBuffer( new Buffering( delayLen ) ), _iDelayLen( delayLen ), _iBufferLen( 4*delayLen )  {
 }
 
 TestBuffering::~TestBuffering(){
