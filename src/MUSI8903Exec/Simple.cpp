@@ -27,6 +27,7 @@ int main () {
     std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
     std::cout<<"Writing       : "<<tTestBuf.isReadWrite()<<std::endl;
 
+
     return 0;
 }
 
