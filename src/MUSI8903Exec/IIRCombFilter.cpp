@@ -15,6 +15,13 @@ IIRCombFilter::IIRCombFilter( float *audioFile, const int &fileLength, const flo
     
 }
 
+IIRCombFilter::IIRCombFilter( const float &delayInSec, const float &sampleRateInHz, const float &gain): Filter(delayInSec, sampleRateInHz, gain) {
+    
+    _pBuffer = new Buffering( _iDelayInSamples );
+    _fCurVal = 0.0;
+    
+}
+
 
 
 IIRCombFilter::~IIRCombFilter() {

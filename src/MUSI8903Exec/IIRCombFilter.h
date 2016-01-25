@@ -12,8 +12,8 @@ class IIRCombFilter : public Filter {
 public:
 
     IIRCombFilter( float *audioFile, const int &fileLength, const float &delayInSec, const float &sampleRateInHz, const float &gain);
-    //The IIR constructor should also initiate buffering
-    //IIRCombFilter( float *audioFile, const int &fileLength, const float &delayInSec, const float &sampleRateInHz, const float &gain, Buffering buffer);
+    IIRCombFilter( const float &delayInSec, const float &sampleRateInHz, const float &gain);
+
 
     ~IIRCombFilter(); 
 

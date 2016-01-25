@@ -1,5 +1,7 @@
 #include "TestFilter.h"
 
+
+
 TestFilter::TestFilter(int filterType): _iWhichFilter( filterType ), _fDelayInSec(0.3f), _fGain(0.8f), _fTestSignal1( new float[100] ) {
     
     if (filterType == 0) {
@@ -12,6 +14,19 @@ TestFilter::TestFilter(int filterType): _iWhichFilter( filterType ), _fDelayInSe
         std::cout << "No such filter" << std::endl;
     }
 
+}
+
+TestFilter::TestFilter(int filterType, float sampleRate, float delayInSec, float gain) {
+    _iWhichFilter = filterType;
+    if (filterType == 0) {
+        // Test with FIR
+        testFIR = new class FIRCombFilter(delayInSec, sampleRate, gain);
+    } else if (filterType == 1) {
+        // Test with IIR
+        testIIR = new class IIRCombFilter(delayInSec, sampleRate, gain);
+    } else {
+        std::cout << "No such filter" << std::endl;
+    }
 }
 
 TestFilter::~TestFilter() {
@@ -37,7 +52,7 @@ void TestFilter::zeroInputTest() {
         testIIR->filterProcess( _fTestSignal1, 100 );
     }
         
-    fileWrite( _fTestSignal1, "ZeroInputTest.txt" );
+    fileWrite( _fTestSignal1, "ZeroInputTest.txt", 100 );
 }
 
 void TestFilter::unitImpulseTest() {
@@ -54,15 +69,25 @@ void TestFilter::unitImpulseTest() {
         testIIR->filterProcess( _fTestSignal1, 100 );
     }
 
-    fileWrite( _fTestSignal1, "UnitImpulseFilter.txt" );
+    fileWrite( _fTestSignal1, "UnitImpulseFilter.txt", 100 );
+}
+
+void TestFilter::audioFileTest(float *audioFile, const int &fileLength) {
+    if (!_iWhichFilter) {
+        testFIR -> filterProcess(audioFile, fileLength);
+        fileWrite(audioFile, "FIRAudioFileTestResult.txt", fileLength);
+    } else {
+        testIIR -> filterProcess(audioFile, fileLength);
+        fileWrite(audioFile, "IIRAudioFileTestResult.txt", fileLength);
+    }
 }
     
-void TestFilter::fileWrite( float *writeVal, const char* fileName ) const {
+void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fileLength ) const {
 
     std::ofstream outFile( fileName );
     std::ostream_iterator<float> outStream( outFile, "\n" );
-    std::copy(writeVal, writeVal+100, outStream); //Don't understand why the end pointer is not beginPtr+fileLen-1 but beginPtr+fileLen
-
+    std::copy(writeVal, writeVal+fileLength, outStream);
+    
 }
 
 

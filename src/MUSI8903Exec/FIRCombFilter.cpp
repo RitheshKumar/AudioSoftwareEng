@@ -6,6 +6,13 @@ FIRCombFilter::FIRCombFilter( float *audioFile, const int &fileLength, const flo
     _pBuffer = new Buffering( _iDelayInSamples );
     _fCurVal = 0.0;
 }
+
+FIRCombFilter::FIRCombFilter(const float &delayInSec, const float &sampleRateInHz, const float &gain) : Filter(delayInSec, sampleRateInHz, gain ) {
+    
+    //std::cout<<"Hi from FIRComb "<<std::endl;
+    _pBuffer = new Buffering( _iDelayInSamples );
+    _fCurVal = 0.0;
+}
 //Maybe some error here.
 
 

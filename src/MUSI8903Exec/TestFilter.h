@@ -5,6 +5,7 @@
 #include <fstream>
 #include "FIRCombFilter.h"
 #include "IIRCombFilter.h"
+#include "AudioFileIf.h"
 
 class TestFilter {
 private:
@@ -12,11 +13,14 @@ private:
     
     float _fDelayInSec;
     float _fGain;
-    enum  _eFilterType {
-        FIRCombFilter = 0,
-        IIRCombFilter = 1
-    };
-    float * _fTestSignal1; 
+    
+    //suppose to use enum to deal with filter type selection
+//    enum  _eFilterType {
+//        FIRCombFilter = 0,
+//        IIRCombFilter = 1
+//    };
+    
+    float * _fTestSignal1;
 
     
 
@@ -25,14 +29,16 @@ private:
 
     
 public:
-    TestFilter(int filterType);
+    TestFilter(int filterType); //for naive test
+    TestFilter(int filterType, float sampleRate, float delayInSec, float gain); //for test with audio file
     ~TestFilter();
 
     void initTestSignal();
     void zeroInputTest();
     void unitImpulseTest();
+    void audioFileTest(float *audioFile, const int &fileLength);
 
-    void fileWrite( float *writeVal, const char* fileName ) const;
+    void fileWrite( float *writeVal, const char* fileName, const int &fileLength ) const;
     
     
 };

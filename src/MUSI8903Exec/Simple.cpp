@@ -39,17 +39,72 @@ int main () {
     // Filter Test
     // IIR Test
     
-    TestFilter testee(1);
-    testee.zeroInputTest();
-    testee.unitImpulseTest();
+//    TestFilter testee(1);
+//    testee.zeroInputTest();
+//    testee.unitImpulseTest();
     
-    /////////////////////////////////////////////////
+    // audio file test
+    // variable declaration
+    long long    iInFileLength  = 0;
+    float        **ppfAudioData = 0;
+    CAudioFileIf *phAudioFile   = 0;
+    
+    // provide the path
+    std::string sInputFilePath = "/Users/musictechnology/Desktop/ShortDataset/Calcutta_Cutie.wav";
+    
+    // get info of the audio file
+    CAudioFileIf::FileIoType_t fileType = CAudioFileIf::kFileRead;
+    CAudioFileIf::create(phAudioFile);
+    
+    phAudioFile -> openFile(sInputFilePath, fileType);
+    
+    CAudioFileIf::FileSpec_t fileSpec;
+    phAudioFile -> getFileSpec(fileSpec);
+    int numChannels = fileSpec.iNumChannels;
+    phAudioFile -> getLength(iInFileLength);
+    
+    // allocate memory
+    ppfAudioData = new float* [numChannels];
+    for (int channel = 0; channel < numChannels; channel++) {
+        ppfAudioData[channel] = new float [iInFileLength];
+    }
+    phAudioFile -> readData(ppfAudioData, iInFileLength);
+    
+    // construct tester
+    for (int channel = 0; channel < numChannels; channel++) {
+        TestFilter tester(0, fileSpec.fSampleRateInHz, 1.f, .5f);
+        tester.audioFileTest(ppfAudioData[channel], iInFileLength);
+        
+    }
+    
+    
+//    for (int channel = 0; channel < numChannels; channel++) {
+//        testFIR = new class FIRCombFilter(ppfAudioData[channel], iInFileLength, 1.f, fileSpec.fSampleRateInHz, 0.8f);
+//        if (!_iWhichFilter) {
+//            testFIR -> filterProcess(ppfAudioData[channel], iInFileLength);
+//        } else {
+//            testIIR -> filterProcess(ppfAudioData[channel], iInFileLength);
+//        }
+//        
+//        fileWrite(ppfAudioData[channel], "FilterTestForAudioFile.txt");
+//    }
+//
+//    
+//    phAudioFile -> getLength(iInFileLength);
+    
+    
+    
+    
+    //////////////////////////////////////////////////
     // FIR Test
-    TestFilter testee2(0);
+//    TestFilter testee2(0);
 //    testee2.zeroInputTest();
 //    testee2.unitImpulseTest();
     
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////
+    // Audio File Test
+
+    
     return 0;
 }
 
