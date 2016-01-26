@@ -25,6 +25,8 @@ int main () {
     //std::cout<<isZeros( fArray, 20 )<<std::endl;
 
     //int idelayLen = 512;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Test for Buffer class
     //TestBuffering tTestBuf( idelayLen );
     //std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
     //std::cout<<"Writing       : "<<tTestBuf.isReadWrite()<<std::endl;
@@ -34,16 +36,27 @@ int main () {
 //    std::ostream_iterator<float> outStream( outFile, "\n" );
 //    std::copy(fArray, fArray+20, outStream); //Don't understand why the end pointer is not beginPtr+fileLen-1 but beginPtr+fileLen
 //    std::cout<<*(fArray+19)<<std::endl;
-
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Test for Filter classes
+    ///////////////////////////////////////////////////
+    // Filter Test: IIR naive test
+    
+//    TestFilter testee1(1);
+//    testee1.zeroInputTest();
+//    testee1.unitImpulseTest();
+    
+    
     //////////////////////////////////////////////////
-    // Filter Test
-    // IIR Test
+    // Filter Test: FIR naive test
+//    TestFilter testee2(0);
+//    testee2.zeroInputTest();
+//    testee2.unitImpulseTest();
     
-//    TestFilter testee(1);
-//    testee.zeroInputTest();
-//    testee.unitImpulseTest();
+    //////////////////////////////////////////////////
+    // Audio File Test
     
-    // audio file test
     // variable declaration
     long long    iInFileLength  = 0;
     float        **ppfAudioData = 0;
@@ -51,7 +64,6 @@ int main () {
     
     // provide the path
     std::string sInputFilePath = "/Users/Rithesh/Documents/MIR/Projects/Onset Detection/dev2/sine_100.wav";
-
     
     // get info of the audio file
     CAudioFileIf::FileIoType_t fileType = CAudioFileIf::kFileRead;
@@ -78,32 +90,20 @@ int main () {
         
     }
     
-    
-//    for (int channel = 0; channel < numChannels; channel++) {
-//        testFIR = new class FIRCombFilter(ppfAudioData[channel], iInFileLength, 1.f, fileSpec.fSampleRateInHz, 0.8f);
-//        if (!_iWhichFilter) {
-//            testFIR -> filterProcess(ppfAudioData[channel], iInFileLength);
-//        } else {
-//            testIIR -> filterProcess(ppfAudioData[channel], iInFileLength);
-//        }
-//        
-//        fileWrite(ppfAudioData[channel], "FilterTestForAudioFile.txt");
-//    }
-//
-//    
-//    phAudioFile -> getLength(iInFileLength);
-    
-    
-    
-    
-    //////////////////////////////////////////////////
-    // FIR Test
-//    TestFilter testee2(0);
-//    testee2.zeroInputTest();
-//    testee2.unitImpulseTest();
-    
-    //////////////////////////////////////////////////
-    // Audio File Test
+    //    for (int channel = 0; channel < numChannels; channel++) {
+    //        testFIR = new class FIRCombFilter(ppfAudioData[channel], iInFileLength, 1.f, fileSpec.fSampleRateInHz, 0.8f);
+    //        if (!_iWhichFilter) {
+    //            testFIR -> filterProcess(ppfAudioData[channel], iInFileLength);
+    //        } else {
+    //            testIIR -> filterProcess(ppfAudioData[channel], iInFileLength);
+    //        }
+    //
+    //        fileWrite(ppfAudioData[channel], "FilterTestForAudioFile.txt");
+    //    }
+    //
+    //
+    //    phAudioFile -> getLength(iInFileLength);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     
     return 0;
