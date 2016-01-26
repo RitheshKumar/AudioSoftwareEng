@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     std::string             _sInputFilePath,                 //!< file paths
                             _sOutputFilePath;
 
-    long long               _llInFileLength       = 0;        //!< length of input file
+//    long long               _llInFileLength       = 0;        //!< length of input file
 
     long long               _llBlockLength        = 0;        //!< length of block
     

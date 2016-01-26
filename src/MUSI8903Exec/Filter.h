@@ -11,11 +11,11 @@ protected:
     float _fGain;
 
 public:
-
+    // Constructor
     Filter ( const float &delayInSec, const float &sampleRateInHz, const float &gain) ;
-
+    // Destructor
     virtual ~Filter();
-    
+    // Pure virtual function
     virtual void filterProcess(float *audioFile, const int &fileLength) = 0;
 };
 
