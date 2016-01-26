@@ -12,7 +12,7 @@ void Buffering::init() {
     }
     _pfRead   = _pfBuffer;
     _pfWrite  = _pfRead + _iDelayLen;
-    _pfEnd    = _pfBuffer + _iBufferLen - 1;
+    _pfEnd    = _pfBuffer + _iBufferLen;
 }
 
 void Buffering::copyBuffer(float *destination, const float *source) {
@@ -21,7 +21,7 @@ void Buffering::copyBuffer(float *destination, const float *source) {
     }
 }
 
-Buffering::Buffering( int delayLen ) : _iDelayLen( delayLen ), _iBufferLen( 1*delayLen ), _pfBuffer( 0 ) {
+Buffering::Buffering( int delayLen ) : _iDelayLen( delayLen ), _iBufferLen( 4*delayLen ), _pfBuffer( 0 ) {
     init();
 }
 

@@ -1,0 +1,89 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Buffering	Buffering.cpp	/^Buffering::Buffering( const Buffering &rhs ) : _iDelayLen( rhs._iDelayLen ), _iBufferLen( rhs._iBufferLen )  {$/;"	f	class:Buffering
+Buffering	Buffering.cpp	/^Buffering::Buffering( int delayLen ) : _iDelayLen( delayLen ), _iBufferLen( 1*delayLen ), _pfBuffer( 0 ) {$/;"	f	class:Buffering
+Buffering	Buffering.h	/^class Buffering {$/;"	c
+CMyProject	MyProject.cpp	/^CMyProject::CMyProject ()$/;"	f	class:CMyProject
+CMyProject	MyProject.h	/^class CMyProject$/;"	c
+FIRCombFilter	FIRCombFilter.cpp	/^FIRCombFilter::FIRCombFilter(const float &delayInSec, const float &sampleRateInHz, const float &gain) : Filter(delayInSec, sampleRateInHz, gain ) {$/;"	f	class:FIRCombFilter
+FIRCombFilter	FIRCombFilter.h	/^class FIRCombFilter : public Filter {$/;"	c
+Filter	Filter.cpp	/^Filter::Filter ( const float &delayInSec, const float &sampleRateInHz, const float &gain) : _fDelayInSec( delayInSec ), _iDelayInSamples( (int)(sampleRateInHz*delayInSec) ),  _fGain ( gain ) {$/;"	f	class:Filter
+Filter	Filter.h	/^class Filter {$/;"	c
+IIRCombFilter	IIRCombFilter.cpp	/^IIRCombFilter::IIRCombFilter( const float &delayInSec, const float &sampleRateInHz, const float &gain): Filter(delayInSec, sampleRateInHz, gain) {$/;"	f	class:IIRCombFilter
+IIRCombFilter	IIRCombFilter.h	/^class IIRCombFilter : public Filter {$/;"	c
+TestBuffering	TestBuffering.cpp	/^TestBuffering::TestBuffering( const int &delayLen ) : _pBuffer( new Buffering( delayLen ) ), _iDelayLen( delayLen )  {$/;"	f	class:TestBuffering
+TestBuffering	TestBuffering.h	/^class TestBuffering {$/;"	c
+TestFilter	TestFilter.cpp	/^TestFilter::TestFilter(int filterType): _iWhichFilter( filterType ), _fDelayInSec(0.3f), _fGain(0.8f), _fTestSignal1( new float[100] ) {$/;"	f	class:TestFilter
+TestFilter	TestFilter.cpp	/^TestFilter::TestFilter(int filterType, float sampleRate, float delayInSec, float gain) {$/;"	f	class:TestFilter
+TestFilter	TestFilter.h	/^class TestFilter {$/;"	c
+Version_t	MyProject.h	/^    enum Version_t$/;"	g	class:CMyProject
+__Buffering__	Buffering.h	/^#define __Buffering__$/;"	d
+__FIRCombFilter__	FIRCombFilter.h	/^#define __FIRCombFilter__$/;"	d
+__Filter__	Filter.h	/^#define __Filter__$/;"	d
+__IIRCombFilter__	IIRCombFilter.h	/^#define __IIRCombFilter__$/;"	d
+__MUSI8903__TestFilter__	TestFilter.h	/^#define __MUSI8903__TestFilter__$/;"	d
+__MyProject_hdr__	MyProject.h	/^#define __MyProject_hdr__$/;"	d
+__TestBuffering__	TestBuffering.h	/^#define __TestBuffering__$/;"	d
+_fCurVal	FIRCombFilter.h	/^    float      _fCurVal;$/;"	m	class:FIRCombFilter
+_fCurVal	IIRCombFilter.h	/^    float      _fCurVal;$/;"	m	class:IIRCombFilter
+_fDelayInSec	Filter.h	/^    float _fDelayInSec;$/;"	m	class:Filter
+_fDelayInSec	TestFilter.h	/^    float _fDelayInSec;$/;"	m	class:TestFilter
+_fGain	Filter.h	/^    float _fGain;$/;"	m	class:Filter
+_fGain	TestFilter.h	/^    float _fGain;$/;"	m	class:TestFilter
+_fTestSignal1	TestFilter.h	/^    float * _fTestSignal1;$/;"	m	class:TestFilter
+_iBufferLen	Buffering.h	/^    int _iDelayLen, _iBufferLen; \/\/Try implementing your buffer in a radix size!$/;"	m	class:Buffering
+_iDelayInSamples	Filter.h	/^    int _iDelayInSamples;$/;"	m	class:Filter
+_iDelayLen	Buffering.h	/^    int _iDelayLen, _iBufferLen; \/\/Try implementing your buffer in a radix size!$/;"	m	class:Buffering
+_iDelayLen	TestBuffering.h	/^    int _iDelayLen;$/;"	m	class:TestBuffering
+_iWhichFilter	TestFilter.h	/^    int _iWhichFilter;$/;"	m	class:TestFilter
+_pBuffer	FIRCombFilter.h	/^    Buffering* _pBuffer;$/;"	m	class:FIRCombFilter
+_pBuffer	IIRCombFilter.h	/^    Buffering* _pBuffer;$/;"	m	class:IIRCombFilter
+_pBuffer	TestBuffering.h	/^    Buffering *_pBuffer;$/;"	m	class:TestBuffering
+_pfBuffer	Buffering.h	/^    float *_pfBuffer, *_pfWrite, *_pfRead, *_pfEnd;$/;"	m	class:Buffering
+_pfEnd	Buffering.h	/^    float *_pfBuffer, *_pfWrite, *_pfRead, *_pfEnd;$/;"	m	class:Buffering
+_pfRead	Buffering.h	/^    float *_pfBuffer, *_pfWrite, *_pfRead, *_pfEnd;$/;"	m	class:Buffering
+_pfWrite	Buffering.h	/^    float *_pfBuffer, *_pfWrite, *_pfRead, *_pfEnd;$/;"	m	class:Buffering
+audioFileTest	TestFilter.cpp	/^void TestFilter::audioFileTest(float *audioFile, const int &fileLength) {$/;"	f	class:TestFilter
+copyBuffer	Buffering.cpp	/^void Buffering::copyBuffer(float *destination, const float *source) {$/;"	f	class:Buffering
+create	MyProject.cpp	/^Error_t CMyProject::create (CMyProject*& pCMyProject)$/;"	f	class:CMyProject
+destroy	MyProject.cpp	/^Error_t CMyProject::destroy (CMyProject*& pCMyProject)$/;"	f	class:CMyProject
+fileWrite	TestFilter.cpp	/^void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fileLength ) const {$/;"	f	class:TestFilter
+filterProcess	FIRCombFilter.cpp	/^void FIRCombFilter::filterProcess( float *audioFile, const int &fileLength) {$/;"	f	class:FIRCombFilter
+filterProcess	IIRCombFilter.cpp	/^void IIRCombFilter::filterProcess( float *audioFile, const int &fileLength) {$/;"	f	class:IIRCombFilter
+getBufferLen	Buffering.h	/^    int getBufferLen() { return _iBufferLen; }$/;"	f	class:Buffering
+getBuildDate	MyProject.cpp	/^const char*  CMyProject::getBuildDate ()$/;"	f	class:CMyProject
+getVersion	MyProject.cpp	/^const int  CMyProject::getVersion (const Version_t eVersionIdx)$/;"	f	class:CMyProject
+init	Buffering.cpp	/^void Buffering::init() {$/;"	f	class:Buffering
+init	MyProject.cpp	/^Error_t CMyProject::init()$/;"	f	class:CMyProject
+initTestSignal	TestFilter.cpp	/^void TestFilter::initTestSignal() {$/;"	f	class:TestFilter
+isInit	TestBuffering.cpp	/^bool TestBuffering::isInit() { \/\/Check if the buffer is initialized to zero$/;"	f	class:TestBuffering
+isReadWrite	TestBuffering.cpp	/^bool TestBuffering::isReadWrite() { \/\/Check the read\/write functionality of Buffering class$/;"	f	class:TestBuffering
+isZeros	Simple.cpp	/^bool isZeros( float *fArray, int len ) {$/;"	f
+kCMyProjectBuildDate	MyProject.cpp	/^static const char*  kCMyProjectBuildDate             = __DATE__;$/;"	v	file:
+kMajor	MyProject.h	/^        kMajor,                         \/\/!< major version number$/;"	e	enum:CMyProject::Version_t
+kMinor	MyProject.h	/^        kMinor,                         \/\/!< minor version number$/;"	e	enum:CMyProject::Version_t
+kNumVersionInts	MyProject.h	/^        kNumVersionInts$/;"	e	enum:CMyProject::Version_t
+kPatch	MyProject.h	/^        kPatch,                         \/\/!< patch version number$/;"	e	enum:CMyProject::Version_t
+main	MUSI8903Exec.cpp	/^int main(int argc, char* argv[])$/;"	f
+main	Simple.cpp	/^int main () {$/;"	f
+operator =	Buffering.cpp	/^Buffering & Buffering::operator= ( const Buffering &rhs ) {$/;"	f	class:Buffering
+read	Buffering.cpp	/^float Buffering::read() {$/;"	f	class:Buffering
+reset	MyProject.cpp	/^Error_t CMyProject::reset ()$/;"	f	class:CMyProject
+showClInfo	MUSI8903Exec.cpp	/^void     showClInfo()$/;"	f
+testFIR	TestFilter.h	/^    class FIRCombFilter *testFIR; $/;"	m	class:TestFilter	typeref:class:TestFilter::FIRCombFilter
+testIIR	TestFilter.h	/^    class IIRCombFilter *testIIR;$/;"	m	class:TestFilter	typeref:class:TestFilter::IIRCombFilter
+unitImpulseTest	TestFilter.cpp	/^void TestFilter::unitImpulseTest() {$/;"	f	class:TestFilter
+update	Buffering.cpp	/^void Buffering::update( float *& bufPtr ) {$/;"	f	class:Buffering
+write	Buffering.cpp	/^void Buffering::write(const float& val) {$/;"	f	class:Buffering
+zeroInputTest	TestFilter.cpp	/^void TestFilter::zeroInputTest() {$/;"	f	class:TestFilter
+~Buffering	Buffering.cpp	/^Buffering::~Buffering() {$/;"	f	class:Buffering
+~CMyProject	MyProject.cpp	/^CMyProject::~CMyProject ()$/;"	f	class:CMyProject
+~FIRCombFilter	FIRCombFilter.cpp	/^FIRCombFilter::~FIRCombFilter() {$/;"	f	class:FIRCombFilter
+~Filter	Filter.cpp	/^Filter::~Filter() {$/;"	f	class:Filter
+~IIRCombFilter	IIRCombFilter.cpp	/^IIRCombFilter::~IIRCombFilter() {$/;"	f	class:IIRCombFilter
+~TestBuffering	TestBuffering.cpp	/^TestBuffering::~TestBuffering(){$/;"	f	class:TestBuffering
+~TestFilter	TestFilter.cpp	/^TestFilter::~TestFilter() {$/;"	f	class:TestFilter

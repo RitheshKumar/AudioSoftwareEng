@@ -1,23 +1,7 @@
 #include "TestFilter.h"
 
 
-
-TestFilter::TestFilter(int filterType): _iWhichFilter( filterType ), _fDelayInSec(0.3f), _fGain(0.8f), _fTestSignal1( new float[100] ) {
-    
-    if (filterType == 0) {
-        //This is testing FIR
-        testFIR = new class FIRCombFilter( _fDelayInSec, 100, _fGain );
-    } else if ( filterType == 1) {
-        //This is testing IIR
-        testIIR = new class IIRCombFilter( _fDelayInSec, 100, _fGain );
-    } else {
-        std::cout << "No such filter" << std::endl;
-    }
-
-}
-
-TestFilter::TestFilter(int filterType, float sampleRate, float delayInSec, float gain) {
-    _iWhichFilter = filterType;
+TestFilter::TestFilter(int filterType, float sampleRate, float delayInSec, float gain ) : _iWhichFilter( filterType ), _fTestSignal( new float[100] ) {
     if (filterType == 0) {
         // Test with FIR
         testFIR = new class FIRCombFilter(delayInSec, sampleRate, gain);
@@ -30,14 +14,14 @@ TestFilter::TestFilter(int filterType, float sampleRate, float delayInSec, float
 }
 
 TestFilter::~TestFilter() {
-    delete _fTestSignal1;
-    _fTestSignal1 = NULL;
+    delete _fTestSignal;
+    _fTestSignal = NULL;
 }
 
 void TestFilter::initTestSignal() {
     //Initialize testSignal to zeros
     for( int i = 0; i<100; i++ ) {
-        _fTestSignal1[i] = 0.0;
+        _fTestSignal[i] = 0.0;
     }
 }
 
@@ -46,13 +30,15 @@ void TestFilter::zeroInputTest() {
     initTestSignal();
 
     if( !_iWhichFilter ) {
-        testFIR->filterProcess( _fTestSignal1, 100 );
+        testFIR->filterProcess( _fTestSignal, 100 );
+        fileWrite( _fTestSignal, "FIRZeroInputTest.txt", 100 );
     }
     else {
-        testIIR->filterProcess( _fTestSignal1, 100 );
+        testIIR->filterProcess( _fTestSignal, 100 );
+        fileWrite( _fTestSignal, "IIRZeroInputTest.txt", 100 );
     }
         
-    fileWrite( _fTestSignal1, "ZeroInputTest.txt", 100 );
+    
 }
 
 void TestFilter::unitImpulseTest() {
@@ -60,34 +46,52 @@ void TestFilter::unitImpulseTest() {
     initTestSignal();
 
     //unit impulse
-    _fTestSignal1[0] = 1.0f;
+    _fTestSignal[0] = 1.0f;
 
     if( !_iWhichFilter ) {
-        testFIR->filterProcess( _fTestSignal1, 100 );
+        testFIR->filterProcess( _fTestSignal, 100 );
+        fileWrite( _fTestSignal, "FIRUnitImpulseFilter.txt", 100 );
     }
     else {
-        testIIR->filterProcess( _fTestSignal1, 100 );
+        testIIR->filterProcess( _fTestSignal, 100 );
+        fileWrite( _fTestSignal, "IIRUnitImpulseFilter.txt", 100 );
     }
 
-    fileWrite( _fTestSignal1, "UnitImpulseFilter.txt", 100 );
+    
 }
 
-void TestFilter::audioFileTest(float *audioFile, const int &fileLength) {
+void TestFilter::audioFileTest(float **audioFile, const int &fileLength, const int &numChannels) {
     if (!_iWhichFilter) {
-        testFIR -> filterProcess(audioFile, fileLength);
-        fileWrite(audioFile, "FIRAudioFileTestResult.txt", fileLength);
+        for ( int i=0; i<numChannels; i++ ) {
+            testFIR -> filterProcess(audioFile[i], fileLength);
+        }
+        fileWrite(audioFile, "FIRAudioFileTestResult.txt", fileLength, numChannels);
     } else {
-        testIIR -> filterProcess(audioFile, fileLength);
-        fileWrite(audioFile, "IIRAudioFileTestResult.txt", fileLength);
+        for ( int i=0; i<numChannels; i++ ) {
+            testIIR -> filterProcess(audioFile[i], fileLength);
+        }
+        fileWrite(audioFile, "IIRAudioFileTestResult.txt", fileLength, numChannels);
     }
 }
     
-void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fileLength ) const {
+void TestFilter::fileWrite( float **writeVal, const char* fileName, const int &fileLength, const int &numChannels ) const {
+
+    std::ofstream outFile( fileName );
+    //std::ostream_iterator<float> outStream( outFile, "\n" );
+    for ( int i=0; i<fileLength; i++ ) {
+        for ( int j=0; j<numChannels; j++ ) {
+            outFile << writeVal[j][i] << "\t";
+        }
+        outFile << "\n";
+    }
+    //std::copy(writeVal, writeVal+fileLength, outStream);
+    
+}
+
+void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fileLength, const int &numChannels ) const {
 
     std::ofstream outFile( fileName );
     std::ostream_iterator<float> outStream( outFile, "\n" );
     std::copy(writeVal, writeVal+fileLength, outStream);
     
 }
-
-

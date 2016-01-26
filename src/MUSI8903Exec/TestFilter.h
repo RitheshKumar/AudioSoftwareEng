@@ -11,34 +11,29 @@ class TestFilter {
 private:
     int _iWhichFilter;
     
-    float _fDelayInSec;
-    float _fGain;
-    
     //suppose to use enum to deal with filter type selection
 //    enum  _eFilterType {
 //        FIRCombFilter = 0,
 //        IIRCombFilter = 1
 //    };
     
-    float * _fTestSignal1;
-
-    
+    float * _fTestSignal;
 
     class FIRCombFilter *testFIR; 
     class IIRCombFilter *testIIR;
 
     
 public:
-    TestFilter(int filterType); //for naive test
-    TestFilter(int filterType, float sampleRate, float delayInSec, float gain); //for test with audio file
+    TestFilter(int filterType, float sampleRate=100, float delayInSec=0.3f, float gain=0.8f); //for test with audio file
     ~TestFilter();
 
     void initTestSignal();
     void zeroInputTest();
     void unitImpulseTest();
-    void audioFileTest(float *audioFile, const int &fileLength);
+    void audioFileTest(float **audioFile, const int &fileLength, const int &numChannels=1);
 
-    void fileWrite( float *writeVal, const char* fileName, const int &fileLength ) const;
+    void fileWrite( float **writeVal, const char* fileName, const int &fileLength, const int &numChannels=1 ) const;
+    void fileWrite( float *writeVal, const char* fileName, const int &fileLength, const int &numChannels=1 ) const;
     
     
 };
