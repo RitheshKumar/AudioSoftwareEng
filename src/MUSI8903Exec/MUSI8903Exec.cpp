@@ -5,6 +5,8 @@
 #include "MUSI8903Config.h"
 
 #include "AudioFileIf.h"
+#include "IIRCombFilter.h"
+#include "FIRCombFilter.h"
 
 using std::cout;
 using std::endl;
@@ -16,16 +18,16 @@ void    showClInfo ();
 // main function
 int main(int argc, char* argv[])
 {
-    std::string             sInputFilePath,                 //!< file paths
-                            sOutputFilePath;
+    std::string             _sInputFilePath,                 //!< file paths
+                            _sOutputFilePath;
 
-    long long               iInFileLength       = 0;        //!< length of input file
+    long long               _llInFileLength       = 0;        //!< length of input file
 
-    int                     iBlockLength        = 0;        //!< length of block 
+    long long               _llBlockLength        = 0;        //!< length of block
     
-    float                   fDelayLenInSec      = 0.0f;     //!< delay Length in Seconds 
+    float                   _fDelayLenInSec      = 0.0f;     //!< delay Length in Seconds
 
-    float                   fGain               = 0.0f;
+    float                   _fGain               = 0.0f;
 
     clock_t                 time                = 0;
 
@@ -33,18 +35,19 @@ int main(int argc, char* argv[])
 
     CAudioFileIf            *phAudioFile        = 0;
 
-    FIRCombFilter           *pFIRFilter;
-    IIRCombFilter           *pIIRFilter;
+//    FIRCombFilter           *pFIRFilter;
+//    IIRCombFilter           *pIIRFilter;
+    Filter * _FilterProcess;
 
 
     enum eFilterTypes {
-        FIRCombFilter = 1,
-        IIRCombFilter = 2
+        FIRCombFilter,
+        IIRCombFilter
     };
     
-    int iTypeOfFilter = 0;
+//    int iTypeOfFilter = 0;
     
-    float fDelayInSec = 0.f;
+//    float _fDelayInSec = 0.f;
     
     showClInfo ();
 
@@ -57,15 +60,16 @@ int main(int argc, char* argv[])
 //        iTypeOfFilter = eFilterTypes.argv[1];
 //        fDelayInSec = (float)argv[2];
 //    }
-    if (argc<2) {
+    if (argc<4) {
         return -1;
     }
     else {
-        sInputFilePath = argv[1];
-        sOutputFilePath  = sInputFilePath + ".txt";
-        iBlockLength     = argv[2];
-        fDelayLenInSec   = argv[3];
-        fGain            = argv[4];
+        _sInputFilePath   = argv[1];
+        _sOutputFilePath  = _sInputFilePath + ".txt";
+  
+        _llBlockLength     = atoi(argv[2]);
+        _fDelayLenInSec   = (float) (atof(argv[3]));
+        _fGain            = (float) (atof(argv[4]));
     }
     
     //////////////////////////////////////////////////////////////////////////////
@@ -73,69 +77,63 @@ int main(int argc, char* argv[])
     CAudioFileIf::FileIoType_t fileType = CAudioFileIf::kFileRead;
     CAudioFileIf::create(phAudioFile);
     
-    phAudioFile -> openFile(sInputFilePath, fileType);
+    phAudioFile -> openFile(_sInputFilePath, fileType);
     
     CAudioFileIf::FileSpec_t fileSpec;
     phAudioFile -> getFileSpec(fileSpec);
-    int numChannels = fileSpec.iNumChannels;
     
     //////////////////////////////////////////////////////////////////////////////
     // allocate memory
-    ppfAudioData = new float* [numChannels];
-    
-    for (int channel = 0; channel < numChannels; channel++) {
-        ppfAudioData[i] = new float[iBlockLength];
+   
+    time = clock();
+    ppfAudioData = new float* [fileSpec.iNumChannels];
+    for (int channel = 0; channel < fileSpec.iNumChannels; channel++) {
+        ppfAudioData[channel] = new float [_llBlockLength];
     }
-    
-    if ( argv[5] ) {
-        pFIRFilter = new FIRCombFilter( delayInSec, fileSpec.fSampleRateInHz, fGain );
-    }
-    else {
-        pIIRFilter = new IIRCombFilter( delayInSec, fileSpec.fSampleRateInHz, fGain );
-    }
-    
-    // get audio data
-    
+    while (!phAudioFile->isEof()) {
+        phAudioFile -> readData(ppfAudioData, _llBlockLength);
+        if (atoi(argv[5]) == 0) {
+            for (int i = 0; i < fileSpec.iNumChannels; i++) {
+                _FilterProcess = new class FIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
+                _FilterProcess -> filterProcess(ppfAudioData[i], _llBlockLength);
+            }
+        } else if (atoi(argv[5]) == 1){
+            for (int i = 0; i < fileSpec.iNumChannels; i++) {
+                _FilterProcess = new class IIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
+                _FilterProcess -> filterProcess(ppfAudioData[i], _llBlockLength);
+            }
 
-    //////////////////////////////////////////////////////////////////////////////
-    // do processing
-    while ( !phAudioFile -> isEof() ) {
-        long long iNumFrames = kBlockSize;
-        phAudioFile->readData(ppfAudioData, iBlockLength );
-        for ( int i = 0; i<numChannels; i++ ) {
-            if( argv[5] ) {
-                pFIRFilter->filterProcess( ppfAudioData[i], iBlockLength);
-            }
-            else {
-                pIIRFilter->filterProcess( ppfAudioData[i], iBlockLength);
-            }
+        } else {
+            std::cout << "Filter Type Selection Error. Please select 0 or 1" << std::endl;
         }
     }
-        
+    delete _FilterProcess;
+    
+    std::cout << "Processing is done within " << (clock() - time)*1.f / CLOCKS_PER_SEC << " seconds." << std::endl;
+    
+    CAudioFileIf::destroy(phAudioFile);
 
-
-    cout << "Processing is done!" << endl << endl;
 
     //////////////////////////////////////////////////////////////////////////////
     // clean-up
-    for (int channel = 0; channel < numChannels; channel++) {
-        delete [] ppfAudioData[channel];
-    }
-    delete [] ppfAudioData;
-    
-    CAudioFileIf::destroy(phAudioFile);
-    
-    return 0;
-    
+//    for (int channel = 0; channel < numChannels; channel++) {
+//        delete [] ppfAudioData[channel];
+//    }
+//    delete [] ppfAudioData;
+//    
+//    CAudioFileIf::destroy(phAudioFile);
+//    
+//    return 0;
+//    
+//}
 }
-
 
 void     showClInfo()
-{
-    cout << "GTCMT MUSI8903" << endl;
-    cout << "(c) 2016 by Alexander Lerch" << endl;
-    cout  << endl;
-
-    return;
-}
+    {
+        cout << "GTCMT MUSI8903" << endl;
+        cout << "(c) 2016 by LiangTang and Ritesh Kumar" << endl;
+        cout  << endl;
+        
+        return;
+    }
 

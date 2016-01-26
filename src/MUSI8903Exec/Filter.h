@@ -16,6 +16,7 @@ public:
 
     virtual ~Filter();
     
+    virtual void filterProcess(float *audioFile, const int &fileLength) = 0;
 };
 
 #endif
