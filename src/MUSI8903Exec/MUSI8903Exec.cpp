@@ -21,11 +21,21 @@ int main(int argc, char* argv[])
 
     long long               iInFileLength       = 0;        //!< length of input file
 
+    int                     iBlockLength        = 0;        //!< length of block 
+    
+    float                   fDelayLenInSec      = 0.0f;     //!< delay Length in Seconds 
+
+    float                   fGain               = 0.0f;
+
     clock_t                 time                = 0;
 
     float                   **ppfAudioData      = 0;
 
     CAudioFileIf            *phAudioFile        = 0;
+
+    FIRCombFilter           *pFIRFilter;
+    IIRCombFilter           *pIIRFilter;
+
 
     enum eFilterTypes {
         FIRCombFilter = 1,
@@ -53,7 +63,9 @@ int main(int argc, char* argv[])
     else {
         sInputFilePath = argv[1];
         sOutputFilePath  = sInputFilePath + ".txt";
-//        std::cout<<sOutputFilePath<<std::endl;
+        iBlockLength     = argv[2];
+        fDelayLenInSec   = argv[3];
+        fGain            = argv[4];
     }
     
     //////////////////////////////////////////////////////////////////////////////
@@ -67,30 +79,49 @@ int main(int argc, char* argv[])
     phAudioFile -> getFileSpec(fileSpec);
     int numChannels = fileSpec.iNumChannels;
     
-    phAudioFile -> getLength(iInFileLength);
     //////////////////////////////////////////////////////////////////////////////
     // allocate memory
     ppfAudioData = new float* [numChannels];
     
     for (int channel = 0; channel < numChannels; channel++) {
-
+        ppfAudioData[i] = new float[iBlockLength];
     }
     
+    if ( argv[5] ) {
+        pFIRFilter = new FIRCombFilter( delayInSec, fileSpec.fSampleRateInHz, fGain );
+    }
+    else {
+        pIIRFilter = new IIRCombFilter( delayInSec, fileSpec.fSampleRateInHz, fGain );
+    }
     
     // get audio data
     
 
     //////////////////////////////////////////////////////////////////////////////
     // do processing
-    
+    while ( !phAudioFile -> isEof() ) {
+        long long iNumFrames = kBlockSize;
+        phAudioFile->readData(ppfAudioData, iBlockLength );
+        for ( int i = 0; i<numChannels; i++ ) {
+            if( argv[5] ) {
+                pFIRFilter->filterProcess( ppfAudioData[i], iBlockLength);
+            }
+            else {
+                pIIRFilter->filterProcess( ppfAudioData[i], iBlockLength);
+            }
+        }
+    }
+        
+
+
     cout << "Processing is done!" << endl << endl;
 
     //////////////////////////////////////////////////////////////////////////////
     // clean-up
     for (int channel = 0; channel < numChannels; channel++) {
-        delete ppfAudioData[channel];
+        delete [] ppfAudioData[channel];
     }
-    delete ppfAudioData;
+    delete [] ppfAudioData;
     
     CAudioFileIf::destroy(phAudioFile);
     
