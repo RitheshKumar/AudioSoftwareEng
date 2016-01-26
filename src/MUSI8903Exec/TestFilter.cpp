@@ -88,6 +88,7 @@ void TestFilter::fileWrite( float **writeVal, const char* fileName, const int &f
         }
         outFile << "\n";
     }
+    outFile.close();
     //std::copy(writeVal, writeVal+fileLength, outStream);
     
 }
@@ -97,5 +98,6 @@ void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fi
     std::ofstream outFile( fileName );
     std::ostream_iterator<float> outStream( outFile, "\n" );
     std::copy(writeVal, writeVal+fileLength, outStream);
+    outFile.close();
     
 }

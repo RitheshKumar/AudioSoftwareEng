@@ -3,14 +3,14 @@
 #include "TestBuffering.h"
 #include "TestFilter.h"
 
-bool isZeros( float *fArray, int len ) {
-    for ( int i =0; i<len; i++ ) {
-        if ( fArray[i] != 0 ) {
-            return false;
-        }
-    }
-    return true;
-}
+//bool isZeros( float *fArray, int len ) {
+//    for ( int i =0; i<len; i++ ) {
+//        if ( fArray[i] != 0 ) {
+//            return false;
+//        }
+//    }
+//    return true;
+//}
 
 
 int main () {
@@ -42,15 +42,14 @@ int main () {
     // Test for Filter classes
     ///////////////////////////////////////////////////
 //     Filter Test: IIR naive test
-    
+//    
 //    TestFilter testee1(1);
 //    testee1.zeroInputTest();
 //    testee1.unitImpulseTest();
     
-    
     //////////////////////////////////////////////////
     // Filter Test: FIR naive test
-    
+//    
 //    TestFilter testee2(0);
 //    testee2.zeroInputTest();
 //    testee2.unitImpulseTest();
@@ -64,7 +63,8 @@ int main () {
     CAudioFileIf *phAudioFile   = 0;
     
     // provide the path
-    std::string sInputFilePath = "/Users/Rithesh/Documents/MIR/Projects/Onset Detection/dev2/sine_200.wav";
+//    std::string sInputFilePath = "/Users/Rithesh/Documents/MIR/Projects/Onset Detection/dev2/sine_200.wav";
+    std::string sInputFilePath = "/Users/musictechnology/Desktop/ShortDataset/Calcutta_Cutie.wav";
     
     // get info of the audio file
     CAudioFileIf::FileIoType_t fileType = CAudioFileIf::kFileRead;
@@ -84,10 +84,16 @@ int main () {
     }
     phAudioFile -> readData(ppfAudioData, iInFileLength);
     
-//     construct tester
+    // First argument of this function manage the filter type
+    // 1 is IIR
+    // 0 is FIR
+    TestFilter tester(1, fileSpec.fSampleRateInHz, 1.f, .8f);
+    tester.audioFileTest(ppfAudioData, iInFileLength);
     
-        TestFilter tester(1, fileSpec.fSampleRateInHz, 1.f, .8f);
-        tester.audioFileTest(ppfAudioData, iInFileLength);
+    std::cout << "Testing is done!" << std::endl;
+    
+    CAudioFileIf::destroy(phAudioFile);
+    
     
  
     
