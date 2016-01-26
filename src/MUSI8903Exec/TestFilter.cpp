@@ -34,6 +34,7 @@ TestFilter::~TestFilter() {
     _fTestSignal1 = NULL;
 }
 
+// This is called by zeroInputTest and unitImpulseTest
 void TestFilter::initTestSignal() {
     //Initialize testSignal to zeros
     for( int i = 0; i<100; i++ ) {
@@ -41,6 +42,7 @@ void TestFilter::initTestSignal() {
     }
 }
 
+// This is called by testee1 and testee2 in Simple.cpp
 void TestFilter::zeroInputTest() {
 
     initTestSignal();
@@ -55,6 +57,7 @@ void TestFilter::zeroInputTest() {
     fileWrite( _fTestSignal1, "ZeroInputTest.txt", 100 );
 }
 
+// This is called by testee1 and testee2 in Simple.cpp
 void TestFilter::unitImpulseTest() {
 
     initTestSignal();
@@ -72,6 +75,7 @@ void TestFilter::unitImpulseTest() {
     fileWrite( _fTestSignal1, "UnitImpulseFilter.txt", 100 );
 }
 
+// This is called by tester in Simple.cpp
 void TestFilter::audioFileTest(float *audioFile, const int &fileLength) {
     if (!_iWhichFilter) {
         testFIR -> filterProcess(audioFile, fileLength);
