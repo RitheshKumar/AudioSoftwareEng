@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
     float                   **ppfAudioData      = 0;
 
     CAudioFileIf            *phAudioFile        = 0;
+    std::ofstream            outFile;
 
 //    FIRCombFilter           *pFIRFilter;
 //    IIRCombFilter           *pIIRFilter;
@@ -70,6 +71,7 @@ int main(int argc, char* argv[])
         _llBlockLength     = atoi(argv[2]);
         _fDelayLenInSec   = (float) (atof(argv[3]));
         _fGain            = (float) (atof(argv[4]));
+
     }
     
     //////////////////////////////////////////////////////////////////////////////
@@ -77,7 +79,7 @@ int main(int argc, char* argv[])
     CAudioFileIf::FileIoType_t fileType = CAudioFileIf::kFileRead;
     CAudioFileIf::create(phAudioFile);
     
-    phAudioFile -> openFile(_sInputFilePath, fileType);
+    phAudioFile -> openFile(_sInputFilePath+".wav", fileType);
     
     CAudioFileIf::FileSpec_t fileSpec;
     phAudioFile -> getFileSpec(fileSpec);
@@ -86,52 +88,82 @@ int main(int argc, char* argv[])
     // allocate memory
    
     time = clock();
+
+    if (atoi(argv[5]) == 0) {
+        _FilterProcess = new class FIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
+    }
+    else if(atoi(argv[5]) == 1) {
+        _FilterProcess = new class IIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
+    }
+    else {
+        std::cout << "Filter Type Selection Error. Please select 0 or 1" << std::endl;
+        return -1;
+    }
+
+
     ppfAudioData = new float* [fileSpec.iNumChannels];
     for (int channel = 0; channel < fileSpec.iNumChannels; channel++) {
         ppfAudioData[channel] = new float [_llBlockLength];
     }
-    while (!phAudioFile->isEof()) {
-        phAudioFile -> readData(ppfAudioData, _llBlockLength);
-        if (atoi(argv[5]) == 0) {
-            for (int i = 0; i < fileSpec.iNumChannels; i++) {
-                _FilterProcess = new class FIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
-                _FilterProcess -> filterProcess(ppfAudioData[i], _llBlockLength);
-            }
-        } else if (atoi(argv[5]) == 1){
-            for (int i = 0; i < fileSpec.iNumChannels; i++) {
-                _FilterProcess = new class IIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
-                _FilterProcess -> filterProcess(ppfAudioData[i], _llBlockLength);
-            }
 
-        } else {
-            std::cout << "Filter Type Selection Error. Please select 0 or 1" << std::endl;
+    while (!phAudioFile->isEof()) {
+
+        phAudioFile -> readData(ppfAudioData, _llBlockLength);
+
+        for (int channel=0; channel<fileSpec.iNumChannels; channel++ ) {
+
+            _FilterProcess -> filterProcess(ppfAudioData[channel], _llBlockLength);
+
+        }
+        for ( int sample = 0; sample < _llBlockLength; sample++ ) {
+            for ( int channel = 0; channel < fileSpec.iNumChannels; channel++ ) {
+                outFile << ppfAudioData[channel][sample]<<"\t";
+            }
+            outFile << "\n";
         }
     }
-    delete _FilterProcess;
-    
-    std::cout << "Processing is done within " << (clock() - time)*1.f / CLOCKS_PER_SEC << " seconds." << std::endl;
-    
-    CAudioFileIf::destroy(phAudioFile);
 
+    
+    //////////////////////////////////////////////////////////////////////////////
+//    // Write the file out
+//    long long iFileLength;
+//
+//    phAudioFile->getLength(iFileLength);
+//
+//    outFile.open(_sOutputFilePath);
+//
+//    for ( int sample = 0; sample < iFileLength; sample++ ) {
+//        for ( int channel = 0; channel < fileSpec.iNumChannels; channel++ ) {
+//            outFile << ppfAudioData[channel][sample]<<"\t";
+//        }
+//        outFile << "\n";
+//    }
+
+    outFile.close();
 
     //////////////////////////////////////////////////////////////////////////////
     // clean-up
-//    for (int channel = 0; channel < numChannels; channel++) {
-//        delete [] ppfAudioData[channel];
-//    }
-//    delete [] ppfAudioData;
-//    
-//    CAudioFileIf::destroy(phAudioFile);
-//    
-//    return 0;
-//    
-//}
+
+    delete _FilterProcess;
+
+    for (int channel = 0; channel < fileSpec.iNumChannels; channel++) {
+        delete [] ppfAudioData[channel];
+    }
+    delete [] ppfAudioData;
+    
+    std::cout << "Processing is done within " << (clock() - time)*1.f / CLOCKS_PER_SEC << " seconds." << std::endl;
+
+    CAudioFileIf::destroy(phAudioFile);
+    
+    return 0;
+    
 }
+
 
 void     showClInfo()
     {
         cout << "GTCMT MUSI8903" << endl;
-        cout << "(c) 2016 by LiangTang and Ritesh Kumar" << endl;
+        cout << "(c) 2016 by LiangTang and Rithesh Kumar" << endl;
         cout  << endl;
         
         return;
