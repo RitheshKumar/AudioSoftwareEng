@@ -63,8 +63,8 @@ int main () {
     CAudioFileIf *phAudioFile   = 0;
     
     // provide the path
-//    std::string sInputFilePath = "/Users/Rithesh/Documents/MIR/Projects/Onset Detection/dev2/sine_200.wav";
-    std::string sInputFilePath = "/Users/musictechnology/Desktop/ShortDataset/Calcutta_Cutie.wav";
+    std::string sInputFilePath = "/Users/Rithesh/Desktop/test samples/We_Never_Fly_Away_Again.wav";
+    //std::string sInputFilePath = "/Users/musictechnology/Desktop/ShortDataset/Calcutta_Cutie.wav";
     
     // get info of the audio file
     CAudioFileIf::FileIoType_t fileType = CAudioFileIf::kFileRead;
@@ -87,8 +87,10 @@ int main () {
     // First argument of this function manage the filter type
     // 1 is IIR
     // 0 is FIR
-    TestFilter tester(1, fileSpec.fSampleRateInHz, 1.f, .8f);
-    tester.audioFileTest(ppfAudioData, iInFileLength);
+    TestFilter tester(0, fileSpec.fSampleRateInHz, (.5f), 0.8f, fileSpec.iNumChannels);
+    tester.audioFileTest(ppfAudioData, iInFileLength, fileSpec.iNumChannels);
+
+
     
     std::cout << "Testing is done!" << std::endl;
     

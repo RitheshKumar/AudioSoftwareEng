@@ -16,7 +16,7 @@ public:
     // Destructor
     virtual ~Filter();
     // Pure virtual function
-    virtual void filterProcess(float *audioFile, const int &fileLength) = 0;
+    virtual void filterProcess(float *audioFile, const int &fileLength, const int numChannels) = 0;
 };
 
 #endif

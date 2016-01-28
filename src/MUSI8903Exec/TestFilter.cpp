@@ -1,13 +1,13 @@
 #include "TestFilter.h"
 
 
-TestFilter::TestFilter(int filterType, float sampleRate, float delayInSec, float gain ) : _iWhichFilter( filterType ), _fTestSignal( new float[100] ) {
+TestFilter::TestFilter(int filterType, float sampleRate, float delayInSec, float gain, const int &numChannels ) : _iWhichFilter( filterType ), _fTestSignal( new float[100] ) {
     if (filterType == 0) {
         // Test with FIR
-        testFIR = new class FIRCombFilter(delayInSec, sampleRate, gain);
+        testFIR = new class FIRCombFilter(delayInSec, sampleRate, gain, numChannels);
     } else if (filterType == 1) {
-        // Test with IIR
-        testIIR = new class IIRCombFilter(delayInSec, sampleRate, gain);
+        // Test with IIR 
+        testIIR = new class IIRCombFilter(delayInSec, sampleRate, gain, numChannels);
     } else {
         std::cout << "No such filter" << std::endl;
     }
@@ -32,11 +32,11 @@ void TestFilter::zeroInputTest() {
     initTestSignal();
 
     if( !_iWhichFilter ) {
-        testFIR->filterProcess( _fTestSignal, 100 );
+        testFIR->filterProcess( _fTestSignal, 100, 1);
         fileWrite( _fTestSignal, "FIRZeroInputTest.txt", 100 );
     }
     else {
-        testIIR->filterProcess( _fTestSignal, 100 );
+        testIIR->filterProcess( _fTestSignal, 100, 1);
         fileWrite( _fTestSignal, "IIRZeroInputTest.txt", 100 );
     }
         
@@ -52,11 +52,11 @@ void TestFilter::unitImpulseTest() {
     _fTestSignal[0] = 1.0f;
 
     if( !_iWhichFilter ) {
-        testFIR->filterProcess( _fTestSignal, 100 );
+        testFIR->filterProcess( _fTestSignal, 100, 1);
         fileWrite( _fTestSignal, "FIRUnitImpulseFilter.txt", 100 );
     }
     else {
-        testIIR->filterProcess( _fTestSignal, 100 );
+        testIIR->filterProcess( _fTestSignal, 100, 1 );
         fileWrite( _fTestSignal, "IIRUnitImpulseFilter.txt", 100 );
     }
 
@@ -67,17 +67,18 @@ void TestFilter::unitImpulseTest() {
 void TestFilter::audioFileTest(float **audioFile, const int &fileLength, const int &numChannels) {
     if (!_iWhichFilter) {
         for ( int i=0; i<numChannels; i++ ) {
-            testFIR -> filterProcess(audioFile[i], fileLength);
+            testFIR -> filterProcess(audioFile[i], fileLength, i);
         }
         fileWrite(audioFile, "FIRAudioFileTestResult.txt", fileLength, numChannels);
     } else {
         for ( int i=0; i<numChannels; i++ ) {
-            testIIR -> filterProcess(audioFile[i], fileLength);
+            testIIR -> filterProcess(audioFile[i], fileLength, i);
         }
         fileWrite(audioFile, "IIRAudioFileTestResult.txt", fileLength, numChannels);
     }
 }
-    
+
+
 void TestFilter::fileWrite( float **writeVal, const char* fileName, const int &fileLength, const int &numChannels ) const {
 
     std::ofstream outFile( fileName );
@@ -101,3 +102,7 @@ void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fi
     outFile.close();
     
 }
+
+
+            
+

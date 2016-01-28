@@ -90,10 +90,10 @@ int main(int argc, char* argv[])
     time = clock();
 
     if (atoi(argv[5]) == 0) {
-        _FilterProcess = new class FIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
+        _FilterProcess = new class FIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain, fileSpec.iNumChannels);
     }
     else if(atoi(argv[5]) == 1) {
-        _FilterProcess = new class IIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain);
+        _FilterProcess = new class IIRCombFilter(_fDelayLenInSec, fileSpec.fSampleRateInHz, _fGain, fileSpec.iNumChannels);
     }
     else {
         std::cout << "Filter Type Selection Error. Please select 0 or 1" << std::endl;
@@ -106,13 +106,21 @@ int main(int argc, char* argv[])
         ppfAudioData[channel] = new float [_llBlockLength];
     }
 
+//    for (int blockSize = 0; blockSize<_llBlockLength; blockSize++) {
+//        for (int channel = 0; channel< fileSpec.iNumChannels; channel++) {
+//            ppfAudioData[channel][blockSize] = 0.0f;
+//        }
+//    }
+    
+    outFile.open(_sOutputFilePath);
+    
     while (!phAudioFile->isEof()) {
 
         phAudioFile -> readData(ppfAudioData, _llBlockLength);
 
         for (int channel=0; channel<fileSpec.iNumChannels; channel++ ) {
-
-            _FilterProcess -> filterProcess(ppfAudioData[channel], _llBlockLength);
+            
+            _FilterProcess -> filterProcess(ppfAudioData[channel], _llBlockLength, channel);
 
         }
         for ( int sample = 0; sample < _llBlockLength; sample++ ) {
