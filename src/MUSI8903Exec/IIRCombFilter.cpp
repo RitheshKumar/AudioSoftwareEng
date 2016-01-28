@@ -7,14 +7,11 @@ IIRCombFilter::IIRCombFilter( const float &delayInSec, const float &sampleRateIn
     for( int channel=0; channel<numChannels; channel++ ) {
         _ppBuffer[channel] = new Buffering(_iDelayInSamples);
     }
-
     _fCurVal = 0.0;
-    
 }
 
 // Destructor
 IIRCombFilter::~IIRCombFilter() {
-    //std::cout<<"Goodbye from IIRComb" <<std::endl;
     for( int channel=0; channel<_iNumChannels; channel++ ) {
         delete _ppBuffer[channel];
     }
@@ -23,15 +20,13 @@ IIRCombFilter::~IIRCombFilter() {
 }
 
 // This is implementation of IIR Comb Filter from the DAFX book
-// Pass in the float pointer, and the length of audio
+// Pass in the float pointer, the length of audio, and the number of channels
 void IIRCombFilter::filterProcess( float *audioFile, const int &fileLength, const int channel) {
 
     for( int i=0; i<fileLength; i++ ) {
-
-        _fCurVal = audioFile[i] + ( _ppBuffer[channel]->read() )*_fGain;
+        _fCurVal = audioFile[i] + ( _ppBuffer[channel]->read() ) * _fGain;
         _ppBuffer[channel]->write( _fCurVal );
         audioFile[i] = _fCurVal;
-
     }
 };
 

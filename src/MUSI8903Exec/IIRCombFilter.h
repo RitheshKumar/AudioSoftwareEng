@@ -8,8 +8,8 @@
 class IIRCombFilter : public Filter {
 
     Buffering** _ppBuffer;
-    float      _fCurVal;
-    int _iNumChannels;
+    float       _fCurVal;
+    int         _iNumChannels;
 
 public:
     // Constructor
@@ -17,9 +17,8 @@ public:
     // Destructor
     ~IIRCombFilter(); 
     // This is implementation of IIR Comb Filter from the DAFX book
-    // Pass in the float pointer, and the length of audio
+    // Pass in the float pointer, the length of audio, and the number of channels
     void filterProcess( float *audioFile, const int &fileLength, const int channel);
-
 };
 
 #endif 

@@ -7,6 +7,8 @@
 #include "AudioFileIf.h"
 #include "IIRCombFilter.h"
 #include "FIRCombFilter.h"
+#include "TestBuffering.h"
+#include "TestFilter.h"
 
 using std::cout;
 using std::endl;
@@ -21,47 +23,56 @@ int main(int argc, char* argv[])
     std::string             _sInputFilePath,                 //!< file paths
                             _sOutputFilePath;
 
-//    long long               _llInFileLength       = 0;        //!< length of input file
-
-    long long               _llBlockLength        = 0;        //!< length of block
+    long long               _llBlockLength      = 0;        //!< length of block
     
-    float                   _fDelayLenInSec      = 0.0f;     //!< delay Length in Seconds
+    float                   _fDelayLenInSec     = 0.0f;     //!< delay Length in Seconds
 
-    float                   _fGain               = 0.0f;
+    float                   _fGain              = 0.0f;
 
     clock_t                 time                = 0;
 
     float                   **ppfAudioData      = 0;
 
     CAudioFileIf            *phAudioFile        = 0;
+    
     std::ofstream            outFile;
 
-//    FIRCombFilter           *pFIRFilter;
-//    IIRCombFilter           *pIIRFilter;
     Filter * _FilterProcess;
-
-
-    enum eFilterTypes {
-        FIRCombFilter,
-        IIRCombFilter
-    };
-    
-//    int iTypeOfFilter = 0;
-    
-//    float _fDelayInSec = 0.f;
     
     showClInfo ();
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // Testing
+    
+    //    Test for Buffer class
+        TestBuffering tTestBuf( 100 );
+        std::cout<<"Testing the Buffering Class. The result is shown below: 1 represents success, 0 represents failure. "<<std::endl;
+        std::cout<<"Initialization: "<<tTestBuf.isInit()<<std::endl;
+        std::cout<<"Writing       : "<<tTestBuf.isReadWrite()<< "\n"<<std::endl;
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // Test for Filter classes
+    ///////////////////////////////////////////////////
+    // Filter Test: IIR naive test
+    
+        TestFilter testee1(1);
+        testee1.zeroInputTest();
+        testee1.unitImpulseTest();
+        std::cout << "The output of IIR Filter test has been written to a text file at ../bin/debug/ " << std::endl;
+    //////////////////////////////////////////////////
+    // Filter Test: FIR naive test
+    
+        TestFilter testee2(0);
+        testee2.zeroInputTest();
+        testee2.unitImpulseTest();
+        std::cout << "The output of FIR Filter test has been written to a text file at ../bin/debug/ \n" << std::endl;
+
+        std::cout << "Use audioFileTest() in TestFilter class for more evaluation results\n\n";    
 
     //////////////////////////////////////////////////////////////////////////////
     // parse command line arguments
-//    if (argc <= 0 || argc > 10) {
-//        std::cerr << "The arguments are not properly provided" << std::endl;
-//    } else {
-//        sInputFilePath = argv[0];
-//        iTypeOfFilter = eFilterTypes.argv[1];
-//        fDelayInSec = (float)argv[2];
-//    }
-    if (argc<4) {
+    if (argc<6) {
+        std::cerr << "The arguments are not properly provided. Filter cannot be used." << std::endl;
         return -1;
     }
     else {
@@ -100,28 +111,17 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-
     ppfAudioData = new float* [fileSpec.iNumChannels];
     for (int channel = 0; channel < fileSpec.iNumChannels; channel++) {
         ppfAudioData[channel] = new float [_llBlockLength];
     }
-
-//    for (int blockSize = 0; blockSize<_llBlockLength; blockSize++) {
-//        for (int channel = 0; channel< fileSpec.iNumChannels; channel++) {
-//            ppfAudioData[channel][blockSize] = 0.0f;
-//        }
-//    }
-    
     outFile.open(_sOutputFilePath);
     
+    // process the signal
     while (!phAudioFile->isEof()) {
-
         phAudioFile -> readData(ppfAudioData, _llBlockLength);
-
         for (int channel=0; channel<fileSpec.iNumChannels; channel++ ) {
-            
             _FilterProcess -> filterProcess(ppfAudioData[channel], _llBlockLength, channel);
-
         }
         for ( int sample = 0; sample < _llBlockLength; sample++ ) {
             for ( int channel = 0; channel < fileSpec.iNumChannels; channel++ ) {
@@ -130,48 +130,26 @@ int main(int argc, char* argv[])
             outFile << "\n";
         }
     }
-
-    
-    //////////////////////////////////////////////////////////////////////////////
-//    // Write the file out
-//    long long iFileLength;
-//
-//    phAudioFile->getLength(iFileLength);
-//
-//    outFile.open(_sOutputFilePath);
-//
-//    for ( int sample = 0; sample < iFileLength; sample++ ) {
-//        for ( int channel = 0; channel < fileSpec.iNumChannels; channel++ ) {
-//            outFile << ppfAudioData[channel][sample]<<"\t";
-//        }
-//        outFile << "\n";
-//    }
-
     outFile.close();
 
     //////////////////////////////////////////////////////////////////////////////
     // clean-up
-
     delete _FilterProcess;
-
     for (int channel = 0; channel < fileSpec.iNumChannels; channel++) {
         delete [] ppfAudioData[channel];
     }
     delete [] ppfAudioData;
-    
-    std::cout << "Processing is done within " << (clock() - time)*1.f / CLOCKS_PER_SEC << " seconds." << std::endl;
-
+    std::cout << "Comb filter processing is done within " << (clock() - time)*1.f / CLOCKS_PER_SEC << " seconds." << std::endl;
     CAudioFileIf::destroy(phAudioFile);
     
     return 0;
-    
 }
 
 
 void     showClInfo()
     {
         cout << "GTCMT MUSI8903" << endl;
-        cout << "(c) 2016 by LiangTang and Rithesh Kumar" << endl;
+        cout << "(c) 2016 by Liang Tang and Rithesh Kumar" << endl;
         cout  << endl;
         
         return;

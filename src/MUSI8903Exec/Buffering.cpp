@@ -33,10 +33,8 @@ Buffering::~Buffering() {
 }
 
 Buffering::Buffering( const Buffering &rhs ) : _iDelayLen( rhs._iDelayLen ), _iBufferLen( rhs._iBufferLen )  {
-
     init();
     copyBuffer( _pfBuffer, rhs._pfBuffer );
-
 }
 
 Buffering & Buffering::operator= ( const Buffering &rhs ) {

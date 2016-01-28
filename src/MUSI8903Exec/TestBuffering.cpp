@@ -1,6 +1,5 @@
 #include "TestBuffering.h"
 
-
 TestBuffering::TestBuffering( const int &delayLen ) : _pBuffer( new Buffering( delayLen ) ), _iDelayLen( delayLen )  {
 }
 

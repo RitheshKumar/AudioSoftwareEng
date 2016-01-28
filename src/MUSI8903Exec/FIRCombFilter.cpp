@@ -24,12 +24,9 @@ FIRCombFilter::~FIRCombFilter() {
 // This is implementation of FIR Comb Filter from the DAFX book
 // Pass in the float pointer, and the length of audio
 void FIRCombFilter::filterProcess( float *audioFile, const int &fileLength, const int channel) {
-
     for( int i=0; i<fileLength; i++ ) {
-
         _ppBuffer[channel]->write( audioFile[i] );
         _fCurVal = audioFile[i] + _ppBuffer[channel]->read()*_fGain;
         audioFile[i] = _fCurVal;
-
     }
 }

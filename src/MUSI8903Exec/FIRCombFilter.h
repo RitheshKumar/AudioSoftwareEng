@@ -7,8 +7,8 @@
 class FIRCombFilter : public Filter {
 
     Buffering** _ppBuffer;
-    float      _fCurVal;
-    int        _iNumChannels;
+    float       _fCurVal;
+    int         _iNumChannels;
 
 public:
     // Constructor

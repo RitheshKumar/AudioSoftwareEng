@@ -32,15 +32,13 @@ void TestFilter::zeroInputTest() {
     initTestSignal();
 
     if( !_iWhichFilter ) {
-        testFIR->filterProcess( _fTestSignal, 100, 1);
+        testFIR->filterProcess( _fTestSignal, 100, 0);
         fileWrite( _fTestSignal, "FIRZeroInputTest.txt", 100 );
     }
     else {
-        testIIR->filterProcess( _fTestSignal, 100, 1);
+        testIIR->filterProcess( _fTestSignal, 100, 0);
         fileWrite( _fTestSignal, "IIRZeroInputTest.txt", 100 );
     }
-        
-    
 }
 
 // This is called by testee1 and testee2 in Simple.cpp
@@ -52,15 +50,13 @@ void TestFilter::unitImpulseTest() {
     _fTestSignal[0] = 1.0f;
 
     if( !_iWhichFilter ) {
-        testFIR->filterProcess( _fTestSignal, 100, 1);
+        testFIR->filterProcess( _fTestSignal, 100, 0);
         fileWrite( _fTestSignal, "FIRUnitImpulseFilter.txt", 100 );
     }
     else {
-        testIIR->filterProcess( _fTestSignal, 100, 1 );
+        testIIR->filterProcess( _fTestSignal, 100, 0 );
         fileWrite( _fTestSignal, "IIRUnitImpulseFilter.txt", 100 );
     }
-
-    
 }
 
 // This is called by tester in Simple.cpp
@@ -90,8 +86,6 @@ void TestFilter::fileWrite( float **writeVal, const char* fileName, const int &f
         outFile << "\n";
     }
     outFile.close();
-    //std::copy(writeVal, writeVal+fileLength, outStream);
-    
 }
 
 void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fileLength, const int &numChannels ) const {
@@ -100,7 +94,6 @@ void TestFilter::fileWrite( float *writeVal, const char* fileName, const int &fi
     std::ostream_iterator<float> outStream( outFile, "\n" );
     std::copy(writeVal, writeVal+fileLength, outStream);
     outFile.close();
-    
 }
 
 

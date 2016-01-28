@@ -1,6 +1,7 @@
 #ifndef __TestBuffering__
 #define __TestBuffering__
 
+// This class is designed for testing the Buffering class
 #include<iostream>
 #include "Buffering.h"
 
