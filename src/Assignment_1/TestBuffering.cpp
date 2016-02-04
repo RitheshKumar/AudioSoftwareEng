@@ -1,3 +1,6 @@
+//Project Header
+#include "MUSI8903Config.h"
+
 #include "TestBuffering.h"
 
 TestBuffering::TestBuffering( const int &delayLen ) : _pBuffer( new Buffering( delayLen ) ), _iDelayLen( delayLen )  {

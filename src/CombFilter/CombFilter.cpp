@@ -72,6 +72,7 @@ Error_t CCombFilterBase::setParam( CCombFilterIf::FilterParam_t eParam, float fP
                 m_ppCRingBuffer[c]->setWriteIdx(CUtil::float2int<int>(fParamValue) + m_ppCRingBuffer[c]->getReadIdx());
             }
         }
+        
         else
         {
             
@@ -124,7 +125,7 @@ Error_t CCombFilterFir::process( float **ppfInputBuffer, float **ppfOutputBuffer
 CCombFilterIir::CCombFilterIir (int iMaxDelayInFrames, int iNumChannels) : CCombFilterBase(iMaxDelayInFrames, iNumChannels)
 {
     // set limits
-    m_aafParamRange[CCombFilterIf::kParamGain][0] = -1.F; 
+    m_aafParamRange[CCombFilterIf::kParamGain][0] = -1.F;    
     m_aafParamRange[CCombFilterIf::kParamGain][0] = 1.F;
 }
 
